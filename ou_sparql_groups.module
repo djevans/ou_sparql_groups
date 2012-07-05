@@ -1,6 +1,19 @@
 <?php
 
 /**
+ * Implements hook_node_info().
+ */
+function ou_sparql_groups_node_info() {
+  return array(
+    'user_group' => array(
+      'name' => t('User Group'),
+      'base' => 'user_group',
+      'description' => t('A user group.'),
+    )
+  );
+}
+
+/**
  * Implements hook_user_insert().
  */
 function ou_sparql_groups_user_insert(&$edit, $account, $category) {
