@@ -14,6 +14,13 @@ function ou_sparql_groups_node_info() {
 }
 
 /**
+ * Implements hook_form().
+ */
+function ou_sparql_groups_form($node, &$form_state) {
+  return node_content_form($node, $form_state);
+}
+
+/**
  * Implements hook_user_insert().
  */
 function ou_sparql_groups_user_insert(&$edit, $account, $category) {
