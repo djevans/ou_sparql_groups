@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * Implements hook_user_insert().
+ */
+function ou_sparql_groups_user_insert(&$edit, $account, $category) {
+  _ou_sparql_groups_update_membership($account, 'currentproject');
+  _ou_sparql_groups_update_membership($account, 'topic_interest');
+}
+
+function _ou_sparql_groups_update_membership($account, $display) {
+  $fields = array(
+    'currentproject' => 'ou_person_ou_foaf_currentproject',
+    'topic_interest' => 'ou_person_ou_foaf_topic_interest',
+  );
+  if (!array_key_exists($display, $fields)) {
+    return FALSE;
+  }
+  $field = $fields[$display];
+  $view_result = views_get_view_result('groups', $display, $account->uid);
+  foreach ($view_result as $item) {
+    $group_name = $item->$field;
+    $query = new EntityFieldQuery;
+    $query->entityCondition('entity_type', 'node')->entityCondition('bundle', 'user_group')->propertyCondition('title', $group_name)->propertyCondition('status', 1)->addMetadata('account', user_load(1));
+    $entity_result = $query->execute();
+    if (count($entity_result) > 0) {
+      foreach($entity_result['node'] as $node) {
+        $nid = $node->nid; 
+      }
+    }
+    else {
+      // create a group node
+      $node = new stdClass();
+      $node->type = 'user_group';
+      node_object_prepare($node);
+      $node->title = $group_name;
+      node_save($node);
+      $nid = $node->nid;
+      if (!$nid) {
+        return FALSE;
+      }
+    }
+    // get the existing OG, or create a new one
+    $new_group = og_get_group('node', $nid, $create = TRUE);
+    if (!$new_group) return FALSE;
+    $values = array(
+      'entity_type' => 'user',
+      'entity' => $account,
+    );
+    og_group($new_group->gid, $values);
+  }
+}
+

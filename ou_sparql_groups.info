@@ -1,0 +1,5 @@
+name = OU SPARQL Groups
+description = Add users to organic groups upon registration.
+core = 7.x
+dependencies[] = og
+dependencies[] = ou_sparql_views
