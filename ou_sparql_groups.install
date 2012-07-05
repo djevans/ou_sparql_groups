@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function ou_sparql_groups_install() {
+  // make the 'user_group' node type a group type
+  og_create_field(OG_GROUP_FIELD,'node','user_group');
+  // we don't need to make the 'user' entity an audience type - already done in og_install().
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ou_sparql_groups_uninstall() {
+  // @TODO remove group memberships
+  node_type_delete('user_group');
+}
+
+
+
