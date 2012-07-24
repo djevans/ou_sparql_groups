@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * Implements hook_views_api().
+ * @return type 
+ */
+function ou_sparql_groups_views_api() { 
+  return array(
+    'api' => 3,
+  );
+}
+
+/**
  * Implements hook_node_info().
  */
 function ou_sparql_groups_node_info() {
