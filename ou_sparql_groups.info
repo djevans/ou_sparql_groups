@@ -3,3 +3,5 @@ description = Add users to organic groups upon registration.
 core = 7.x
 dependencies[] = og
 dependencies[] = ou_sparql_views
+files[] = ou_sparql_groups.views.inc
+files[] = plugins/ou_sparql_groups_argument_default_group_name.inc
