@@ -17,5 +17,28 @@ function ou_sparql_groups_uninstall() {
   node_type_delete('user_group');
 }
 
+/**
+ * Add a URI field to the User Group bundle.
+ */
+function ou_sparql_groups_update_7100() {
+  $field = array(
+    'field_name' => 'user_group_uri',
+    'type' => 'link_field',
+  );
+  field_create_field($field);
+  $instance = array(
+    'field_name' => 'user_group_uri',
+    'entity_type' => 'node',
+    'bundle' => 'user_group',
+    'label' => 'The user group\'s URI on data.open.ac.uk',
+    'settings' => array(
+      // setting for link field - we don't need a title for the link
+      'title' => 'none',
+    ),
+    'required' => FALSE,
+  );
+  field_create_instance($instance);
+}
+
 
 
